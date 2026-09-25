@@ -1,0 +1,6 @@
+{
+  "name": "Magang App",
+  "description": "Aplikasi manajemen kegiatan magang untuk siswa SMA dan guru pembimbing",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

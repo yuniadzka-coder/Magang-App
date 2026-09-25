@@ -1,0 +1,165 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile for students and teacher supervisors",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["siswa", "guru"] },
+        "school": { "type": "string" },
+        "studentClass": { "type": "string" },
+        "nisn": { "type": "string" },
+        "phone": { "type": "string" },
+        "avatar": { "type": "string" },
+        "internshipPlaceId": { "type": "string" },
+        "mentorId": { "type": "string" },
+        "nip": { "type": "string" },
+        "department": { "type": "string" }
+      },
+      "required": ["id", "name", "email", "role", "school"]
+    },
+    "InternshipPlace": {
+      "title": "InternshipPlace",
+      "description": "Information about partner company or organization for internships",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "sector": { "type": "string" },
+        "address": { "type": "string" },
+        "companyMentorName": { "type": "string" },
+        "companyMentorPhone": { "type": "string" },
+        "companyMentorEmail": { "type": "string", "format": "email" },
+        "periodStart": { "type": "string" },
+        "periodEnd": { "type": "string" },
+        "totalDays": { "type": "number" }
+      },
+      "required": ["id", "name", "sector", "address", "companyMentorName", "periodStart", "periodEnd", "totalDays"]
+    },
+    "JournalEntry": {
+      "title": "JournalEntry",
+      "description": "Daily student internship activity log and reflection",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "studentClass": { "type": "string" },
+        "date": { "type": "string" },
+        "checkInTime": { "type": "string" },
+        "checkOutTime": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "learned": { "type": "string" },
+        "challenges": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "menunggu_review", "disetujui", "perlu_revisi"] },
+        "feedbackTeacher": { "type": "string" },
+        "feedbackDate": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "studentId", "date", "title", "description", "status"]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "Daily attendance record for students at internship",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "studentClass": { "type": "string" },
+        "date": { "type": "string" },
+        "status": { "type": "string", "enum": ["hadir", "izin", "sakit", "alpa"] },
+        "checkInTime": { "type": "string" },
+        "checkOutTime": { "type": "string" },
+        "note": { "type": "string" }
+      },
+      "required": ["id", "studentId", "date", "status"]
+    },
+    "Target": {
+      "title": "Target",
+      "description": "Internship competency target and assignment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "deadline": { "type": "string" },
+        "status": { "type": "string", "enum": ["belum_dimulai", "sedang_dikerjakan", "selesai"] },
+        "progress": { "type": "number" },
+        "teacherId": { "type": "string" },
+        "teacherName": { "type": "string" },
+        "studentNote": { "type": "string" }
+      },
+      "required": ["id", "studentId", "title", "description", "deadline", "status", "progress"]
+    },
+    "DocumentationItem": {
+      "title": "DocumentationItem",
+      "description": "Photo documentation from internship activities",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "tags": { "type": "array" }
+      },
+      "required": ["id", "studentId", "title", "date", "photoUrl"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Official broadcast announcements from teachers to students",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "date": { "type": "string" },
+        "priority": { "type": "string", "enum": ["mendesak", "penting", "info"] },
+        "teacherName": { "type": "string" },
+        "teacherRole": { "type": "string" }
+      },
+      "required": ["id", "title", "content", "date", "priority", "teacherName"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles for students and teachers"
+    },
+    "/places/{placeId}": {
+      "schema": { "$ref": "#/entities/InternshipPlace" },
+      "description": "Internship company locations"
+    },
+    "/journals/{journalId}": {
+      "schema": { "$ref": "#/entities/JournalEntry" },
+      "description": "Student daily journals"
+    },
+    "/attendance/{attendanceId}": {
+      "schema": { "$ref": "#/entities/AttendanceRecord" },
+      "description": "Daily attendance records"
+    },
+    "/targets/{targetId}": {
+      "schema": { "$ref": "#/entities/Target" },
+      "description": "Internship competency targets"
+    },
+    "/documentations/{docId}": {
+      "schema": { "$ref": "#/entities/DocumentationItem" },
+      "description": "Internship activity photos"
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Official announcements"
+    }
+  }
+}
